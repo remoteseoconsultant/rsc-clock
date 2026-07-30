@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="RSC Clock — Browser Toolbar Clock Extension">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6f2dbd"/>
+      <stop offset="55%" stop-color="#4a1f80"/>
+      <stop offset="100%" stop-color="#171123"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1280" height="720" fill="url(#bg)"/>
+
+  <!-- subtle background node-dot texture, echoing the brand logo mark -->
+  <circle cx="1120" cy="110" r="7" fill="#a663cc" fill-opacity="0.35"/>
+  <circle cx="1180" cy="180" r="4" fill="#a663cc" fill-opacity="0.3"/>
+  <circle cx="150" cy="600" r="6" fill="#a663cc" fill-opacity="0.3"/>
+  <circle cx="90" cy="120" r="4" fill="#a663cc" fill-opacity="0.25"/>
+  <circle cx="1000" cy="640" r="5" fill="#a663cc" fill-opacity="0.3"/>
+
+  <!-- large analog clock illustration, left side -->
+  <g transform="translate(310,360)">
+    <circle cx="0" cy="0" r="200" fill="none" stroke="#fbfbfb" stroke-width="10" stroke-opacity="0.9"/>
+    <circle cx="0" cy="-170" r="9" fill="#a663cc"/>
+    <circle cx="170" cy="0" r="9" fill="#a663cc"/>
+    <circle cx="0" cy="170" r="9" fill="#a663cc"/>
+    <circle cx="-170" cy="0" r="9" fill="#a663cc"/>
+    <text x="0" y="-133" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#fbfbfb">12</text>
+    <text x="140" y="11" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#fbfbfb">3</text>
+    <text x="0" y="152" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#fbfbfb">6</text>
+    <text x="-140" y="11" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#fbfbfb">9</text>
+    <!-- hour hand -->
+    <line x1="0" y1="0" x2="-70" y2="-85" stroke="#fbfbfb" stroke-width="14" stroke-linecap="round"/>
+    <!-- minute hand -->
+    <line x1="0" y1="0" x2="128" y2="-72" stroke="#a663cc" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="16" fill="#fbfbfb"/>
+  </g>
+
+  <!-- headline block, right side -->
+  <g transform="translate(660,300)">
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="72" font-weight="800" fill="#fbfbfb">RSC Clock</text>
+    <text x="0" y="52" font-family="Arial, sans-serif" font-size="30" font-weight="500" fill="#e4d4f4">Browser Toolbar Clock Extension</text>
+    <text x="0" y="110" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#c9b6e8">Digital &amp; Analog Views  ·  World Clock  ·  Custom Colors &amp; Fonts</text>
+  </g>
+
+  <!-- domain watermark, bottom right -->
+  <text x="1250" y="680" text-anchor="end" font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#fbfbfb" fill-opacity="0.75">remoteseoconsultant.com</text>
+</svg>

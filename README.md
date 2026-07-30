@@ -1,5 +1,7 @@
 # RSC Clock — Browser Toolbar Clock Extension
 
+<img src="assets/banner.svg" alt="RSC Clock — Browser Toolbar Clock Extension" width="100%" />
+
 A lightweight **browser toolbar clock extension** for Chrome and Firefox. Click the toolbar icon to see the time — locally and across up to two other timezones — in either a digital or fully-numbered analog view, styled the way you want.
 
 ## Features
