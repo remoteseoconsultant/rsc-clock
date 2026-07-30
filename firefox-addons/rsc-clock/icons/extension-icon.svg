@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="RSC Clock">
+  <circle cx="64" cy="64" r="54.4" fill="none" stroke="#6f2dbd" stroke-width="8.96" />
+  <circle cx="64" cy="19.46" r="5.76" fill="#a663cc" />
+  <circle cx="108.54" cy="64" r="5.76" fill="#a663cc" />
+  <circle cx="64" cy="108.54" r="5.76" fill="#a663cc" />
+  <circle cx="19.46" cy="64" r="5.76" fill="#a663cc" />
+  <line x1="64" y1="64" x2="40.85" y2="47.79" stroke="#6f2dbd" stroke-width="11.52" stroke-linecap="round" />
+  <line x1="64" y1="64" x2="100.71" y2="42.80" stroke="#a663cc" stroke-width="8.32" stroke-linecap="round" />
+  <circle cx="64" cy="64" r="9.6" fill="#6f2dbd" />
+</svg>
