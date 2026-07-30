@@ -1,0 +1,95 @@
+<!--
+  Author: Md. Istiqur Rahman
+  Remote SEO Consultant (SaaS & eCommerce) | Remote GTM Manager for Solopreneurs & Entrepreneurs
+  https://remoteseoconsultant.com
+-->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div id="app">
+    <div class="brand-header">
+      <img src="icons/brand-mark.svg" alt="" class="brand-mark" />
+      <span class="brand-name">RSC Clock</span>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-page="digital">Digital</button>
+      <button class="tab" data-page="analog">Analog</button>
+    </div>
+
+    <div class="page" data-page="digital">
+      <div class="clock-row">
+        <div class="clock-label">Local</div>
+        <div class="clock-time" id="clock-local">--:--</div>
+      </div>
+
+      <div class="clock-row">
+        <select id="tz1"></select>
+        <div class="clock-time" id="clock-tz1">--:--</div>
+      </div>
+
+      <div class="clock-row">
+        <select id="tz2"></select>
+        <div class="clock-time" id="clock-tz2">--:--</div>
+      </div>
+    </div>
+
+    <div class="page hidden" data-page="analog" id="analog-page"></div>
+
+    <button id="settings-toggle">⚙ Settings</button>
+
+    <div id="settings-panel" class="hidden">
+      <div class="row">
+        <label for="hour12">12-hour format</label>
+        <input type="checkbox" id="hour12" />
+      </div>
+
+      <div class="row">
+        <label for="showSeconds">Show seconds</label>
+        <input type="checkbox" id="showSeconds" />
+      </div>
+
+      <div class="row">
+        <label for="themeMode">Theme</label>
+        <select id="themeMode">
+          <option value="auto">Auto (system)</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+
+      <div class="row swatch-row">
+        <label>Background color</label>
+        <button class="reset" data-target="bgColor">Reset</button>
+      </div>
+      <div class="swatches" id="bgColorSwatches"></div>
+
+      <div class="row swatch-row">
+        <label>Clock color</label>
+        <button class="reset" data-target="clockColor">Reset</button>
+      </div>
+      <div class="swatches" id="clockColorSwatches"></div>
+
+      <div class="row">
+        <label for="font">Font</label>
+        <select id="font">
+          <option value="system">System Default</option>
+          <option value="roboto-mono">Roboto Mono</option>
+          <option value="orbitron">Orbitron</option>
+          <option value="share-tech-mono">Share Tech Mono</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="brand-footer">
+      <a href="https://remoteseoconsultant.com" target="_blank" rel="noopener">remoteseoconsultant.com</a>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
