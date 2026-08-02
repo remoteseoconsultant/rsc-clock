@@ -15,6 +15,31 @@ A lightweight **browser toolbar clock extension** for Chrome and Firefox. Click 
 - **Custom fonts** for the clock display (Roboto Mono, Orbitron, Share Tech Mono, or system default)
 - Settings sync via the browser's built-in `storage.sync` — no account, no external server, no tracking
 
+## Screenshots
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="assets/screenshots/rsc-clock-browser-toolbar-clock-extension-digital-view.png" width="260" alt="RSC Clock browser toolbar clock extension — digital view with local time and world clock timezones" /><br/>
+      <sub>Digital view — local time + world clock</sub>
+    </td>
+    <td align="center">
+      <img src="assets/screenshots/rsc-clock-browser-toolbar-clock-extension-digital-dark-theme-custom-colors.png" width="260" alt="RSC Clock browser toolbar clock extension — dark theme with custom colors and font" /><br/>
+      <sub>Dark theme, custom colors &amp; font</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="assets/screenshots/rsc-clock-browser-toolbar-clock-extension-analog-view.png" width="260" alt="RSC Clock browser toolbar clock extension — analog clock view with fully numbered clock faces" /><br/>
+      <sub>Analog view — fully numbered clock faces</sub>
+    </td>
+    <td align="center">
+      <img src="assets/screenshots/rsc-clock-browser-toolbar-clock-extension-analog-settings-panel.png" width="260" alt="RSC Clock browser toolbar clock extension — analog view with settings panel open" /><br/>
+      <sub>Analog view with settings panel open</sub>
+    </td>
+  </tr>
+</table>
+
 ## Install
 
 ### Chrome / Edge / Brave (Chromium)
