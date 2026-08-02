@@ -1,0 +1,53 @@
+name: Publish to Firefox Add-ons
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Verify manifest version matches tag
+        working-directory: firefox-addons/rsc-clock
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          MANIFEST_VERSION=$(node -p "require('./manifest.json').version")
+          if [ "$TAG_VERSION" != "$MANIFEST_VERSION" ]; then
+            echo "Tag version ($TAG_VERSION) does not match manifest.json version ($MANIFEST_VERSION)."
+            echo "Bump \"version\" in firefox-addons/rsc-clock/manifest.json to match the tag before pushing."
+            exit 1
+          fi
+
+      - name: Install web-ext
+        run: npm install --global web-ext
+
+      - name: Lint extension
+        working-directory: firefox-addons/rsc-clock
+        run: web-ext lint --source-dir=.
+
+      - name: Sign and submit to AMO
+        working-directory: firefox-addons/rsc-clock
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.AMO_JWT_ISSUER }}
+          WEB_EXT_API_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+        run: |
+          web-ext sign \
+            --source-dir=. \
+            --channel=listed \
+            --artifacts-dir=../web-ext-artifacts
+
+      - name: Upload signed artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rsc-clock-firefox-${{ github.ref_name }}
+          path: firefox-addons/web-ext-artifacts/

@@ -52,6 +52,27 @@ A lightweight **browser toolbar clock extension** for Chrome and Firefox. Click 
 2. Click **Load Temporary Add-on…**
 3. Select `manifest.json` inside [`firefox-addons/rsc-clock`](firefox-addons/rsc-clock)
 
+## Releasing a new Firefox version
+
+New versions publish to addons.mozilla.org automatically via GitHub Actions ([`.github/workflows/publish-firefox.yml`](.github/workflows/publish-firefox.yml)).
+
+**One-time setup** (already done for this repo, noted here for reference):
+1. Get an API key/secret from [addons.mozilla.org/developers/addon/api/key](https://addons.mozilla.org/developers/addon/api/key/)
+2. Add them as repo secrets under **Settings → Secrets and variables → Actions**:
+   - `AMO_JWT_ISSUER`
+   - `AMO_JWT_SECRET`
+
+**To publish a new version:**
+1. Bump `"version"` in [`firefox-addons/rsc-clock/manifest.json`](firefox-addons/rsc-clock/manifest.json)
+2. Commit, then tag and push:
+   ```bash
+   git add .
+   git commit -m "Bump version to 1.1.0"
+   git tag v1.1.0
+   git push origin main --tags
+   ```
+3. The workflow lints the extension, verifies the tag matches the manifest version, and submits it to AMO's listed channel automatically
+
 ## Why this extension
 
 Most toolbar clock extensions are either bare-bones (no world clock, no styling) or bloated with permissions and trackers. RSC Clock asks for only the `storage` permission, runs entirely client-side, and focuses on doing one thing well: showing the time, exactly how you like it.
