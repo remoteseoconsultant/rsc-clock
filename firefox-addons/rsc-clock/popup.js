@@ -107,7 +107,7 @@ function getTimeParts(date, timeZone) {
 
 function populateTzSelects() {
   [els.tz1, els.tz2].forEach((select) => {
-    select.innerHTML = "";
+    select.replaceChildren();
     TIMEZONES.forEach(([value, label]) => {
       const opt = document.createElement("option");
       opt.value = value;
@@ -120,7 +120,7 @@ function populateTzSelects() {
 }
 
 function buildSwatches(container, colors, settingKey) {
-  container.innerHTML = "";
+  container.replaceChildren();
   colors.forEach((color) => {
     const btn = document.createElement("button");
     btn.type = "button";
@@ -150,25 +150,55 @@ function applyFontClass() {
   });
 }
 
-// Builds the SVG markup for one analog clock face with all 12 numbers shown.
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+function svgEl(tag, attrs) {
+  const el = document.createElementNS(SVG_NS, tag);
+  for (const [key, value] of Object.entries(attrs)) {
+    el.setAttribute(key, value);
+  }
+  return el;
+}
+
+// Builds one analog clock face with all 12 numbers shown, via safe DOM APIs.
 function buildAnalogClockSVG(id) {
   const cx = 50, cy = 50, r = 42, numberRadius = 34;
-  let numbers = "";
+  const svg = svgEl("svg", { viewBox: "0 0 100 100", width: "104", height: "104", "data-clock": id });
+
+  svg.appendChild(svgEl("circle", { cx, cy, r, class: "analog-face" }));
+
   for (let n = 1; n <= 12; n++) {
     const angle = (n * 30 * Math.PI) / 180;
-    const x = cx + numberRadius * Math.sin(angle);
-    const y = cy - numberRadius * Math.cos(angle);
-    numbers += `<text x="${x.toFixed(2)}" y="${y.toFixed(2)}" class="analog-number" text-anchor="middle" dominant-baseline="middle">${n}</text>`;
+    const x = (cx + numberRadius * Math.sin(angle)).toFixed(2);
+    const y = (cy - numberRadius * Math.cos(angle)).toFixed(2);
+    const text = svgEl("text", {
+      x, y,
+      class: "analog-number",
+      "text-anchor": "middle",
+      "dominant-baseline": "middle"
+    });
+    text.textContent = String(n);
+    svg.appendChild(text);
   }
-  return `
-    <svg viewBox="0 0 100 100" width="104" height="104" data-clock="${id}">
-      <circle cx="${cx}" cy="${cy}" r="${r}" class="analog-face" />
-      ${numbers}
-      <line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy - 20}" class="analog-hand hand-hour" data-hand="hour-${id}" />
-      <line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy - 30}" class="analog-hand hand-minute" data-hand="minute-${id}" />
-      <line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy - 34}" class="analog-hand hand-second" data-hand="second-${id}" />
-      <circle cx="${cx}" cy="${cy}" r="2.5" class="analog-center" />
-    </svg>`;
+
+  const hands = [
+    ["hand-hour", `hour-${id}`, 20],
+    ["hand-minute", `minute-${id}`, 30],
+    ["hand-second", `second-${id}`, 34]
+  ];
+  hands.forEach(([cls, dataHand, length]) => {
+    svg.appendChild(
+      svgEl("line", {
+        x1: cx, y1: cy, x2: cx, y2: cy - length,
+        class: `analog-hand ${cls}`,
+        "data-hand": dataHand
+      })
+    );
+  });
+
+  svg.appendChild(svgEl("circle", { cx, cy, r: 2.5, class: "analog-center" }));
+
+  return svg;
 }
 
 function buildAnalogPage() {
@@ -177,11 +207,14 @@ function buildAnalogPage() {
   ANALOG_CLOCKS.forEach(({ id }) => {
     const clockDiv = document.createElement("div");
     clockDiv.className = "analog-clock";
-    clockDiv.innerHTML = `<div class="clock-label" data-analog-label="${id}"></div>${buildAnalogClockSVG(id)}`;
+    const label = document.createElement("div");
+    label.className = "clock-label";
+    label.dataset.analogLabel = id;
+    clockDiv.appendChild(label);
+    clockDiv.appendChild(buildAnalogClockSVG(id));
     wrapper.appendChild(clockDiv);
   });
-  els.analogPage.innerHTML = "";
-  els.analogPage.appendChild(wrapper);
+  els.analogPage.replaceChildren(wrapper);
 }
 
 function updateAnalogLabels() {
