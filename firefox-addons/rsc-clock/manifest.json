@@ -18,7 +18,10 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "contact@remoteseoconsultant.com"
+      "id": "contact@remoteseoconsultant.com",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   }
 }
