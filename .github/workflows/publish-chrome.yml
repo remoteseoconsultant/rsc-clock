@@ -1,0 +1,59 @@
+name: Publish to Chrome Web Store
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Verify manifest version matches tag
+        working-directory: chrome-extensions/rsc-clock
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          MANIFEST_VERSION=$(node -p "require('./manifest.json').version")
+          if [ "$TAG_VERSION" != "$MANIFEST_VERSION" ]; then
+            echo "Tag version ($TAG_VERSION) does not match manifest.json version ($MANIFEST_VERSION)."
+            echo "Bump \"version\" in chrome-extensions/rsc-clock/manifest.json to match the tag before pushing."
+            exit 1
+          fi
+
+      - name: Zip extension
+        working-directory: chrome-extensions/rsc-clock
+        run: zip -r ../rsc-clock-chrome-${{ github.ref_name }}.zip . -x ".*"
+
+      - name: Upload and publish to Chrome Web Store
+        working-directory: chrome-extensions
+        env:
+          EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+        run: |
+          npx chrome-webstore-upload-cli upload \
+            --source "rsc-clock-chrome-${{ github.ref_name }}.zip" \
+            --extension-id "$EXTENSION_ID" \
+            --client-id "$CLIENT_ID" \
+            --client-secret "$CLIENT_SECRET" \
+            --refresh-token "$REFRESH_TOKEN"
+          npx chrome-webstore-upload-cli publish \
+            --extension-id "$EXTENSION_ID" \
+            --client-id "$CLIENT_ID" \
+            --client-secret "$CLIENT_SECRET" \
+            --refresh-token "$REFRESH_TOKEN"
+
+      - name: Upload built artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rsc-clock-chrome-${{ github.ref_name }}
+          path: chrome-extensions/rsc-clock-chrome-${{ github.ref_name }}.zip
