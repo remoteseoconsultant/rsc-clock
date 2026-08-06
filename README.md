@@ -52,18 +52,18 @@ A lightweight **browser toolbar clock extension** for Chrome and Firefox. Click 
 2. Click **Load Temporary Add-on…**
 3. Select `manifest.json` inside [`firefox-addons/rsc-clock`](firefox-addons/rsc-clock)
 
-## Releasing a new Firefox version
+## Releasing a new version
 
-New versions publish to addons.mozilla.org automatically via GitHub Actions ([`.github/workflows/publish-firefox.yml`](.github/workflows/publish-firefox.yml)).
+New versions publish to **both** addons.mozilla.org and the Chrome Web Store automatically via GitHub Actions ([`.github/workflows/publish-firefox.yml`](.github/workflows/publish-firefox.yml), [`.github/workflows/publish-chrome.yml`](.github/workflows/publish-chrome.yml)) — one tag push updates both stores.
 
 **One-time setup** (already done for this repo, noted here for reference):
-1. Get an API key/secret from [addons.mozilla.org/developers/addon/api/key](https://addons.mozilla.org/developers/addon/api/key/)
-2. Add them as repo secrets under **Settings → Secrets and variables → Actions**:
-   - `AMO_JWT_ISSUER`
-   - `AMO_JWT_SECRET`
+- Firefox: API key/secret from [addons.mozilla.org/developers/addon/api/key](https://addons.mozilla.org/developers/addon/api/key/), stored as repo secrets `AMO_JWT_ISSUER` / `AMO_JWT_SECRET`
+- Chrome: OAuth client (Web application type) from a Google Cloud project with the Chrome Web Store API enabled, plus a refresh token obtained via [OAuth Playground](https://developers.google.com/oauthplayground), stored as repo secrets `CHROME_EXTENSION_ID` / `CHROME_CLIENT_ID` / `CHROME_CLIENT_SECRET` / `CHROME_REFRESH_TOKEN`
+
+All secrets live under **Settings → Secrets and variables → Actions**.
 
 **To publish a new version:**
-1. Bump `"version"` in [`firefox-addons/rsc-clock/manifest.json`](firefox-addons/rsc-clock/manifest.json)
+1. Bump `"version"` in **both** [`firefox-addons/rsc-clock/manifest.json`](firefox-addons/rsc-clock/manifest.json) and [`chrome-extensions/rsc-clock/manifest.json`](chrome-extensions/rsc-clock/manifest.json) to the same value
 2. Commit, then tag and push:
    ```bash
    git add .
@@ -71,7 +71,7 @@ New versions publish to addons.mozilla.org automatically via GitHub Actions ([`.
    git tag v1.1.0
    git push origin main --tags
    ```
-3. The workflow lints the extension, verifies the tag matches the manifest version, and submits it to AMO's listed channel automatically
+3. Both workflows run in parallel: the Firefox one lints with `web-ext` and submits to AMO's listed channel; the Chrome one zips the extension and uploads + publishes via the Chrome Web Store API. Each verifies its own manifest version matches the tag before proceeding.
 
 ## Why this extension
 
