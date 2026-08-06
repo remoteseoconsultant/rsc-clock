@@ -1,0 +1,7 @@
+# Never commit credentials, secrets, or API keys
+client_secret_*.json
+*.pem
+*.key
+.env
+.env.*
+*secrets*/
