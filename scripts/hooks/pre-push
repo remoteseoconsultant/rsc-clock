@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Installed by scripts/install-git-hooks.sh. Runs even on a plain `git push`
+# (not just through safe-commit-push.sh). Git has already computed the SHAs
+# it's about to push by the time this hook runs, so rewriting HEAD here
+# (rebase/merge) would push stale commits — instead we only detect a real
+# divergence from the other device and abort with instructions, never fix
+# history mid-push.
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+source scripts/lib/sync-check.sh
+
+branch="$(git rev-parse --abbrev-ref HEAD)"
+git fetch origin --quiet
+
+if ! git rev-parse --verify --quiet "origin/$branch" > /dev/null; then
+    exit 0
+fi
+
+local_rev="$(git rev-parse HEAD)"
+origin_rev="$(git rev-parse "origin/$branch")"
+base_rev="$(git merge-base HEAD "origin/$branch")"
+
+if [ "$local_rev" = "$origin_rev" ] || [ "$base_rev" = "$origin_rev" ]; then
+    exit 0  # up to date, or we're strictly ahead — normal push
+fi
+
+echo "error: origin/$branch has commits from the other device you don't have yet." >&2
+echo "       run scripts/safe-commit-push.sh to rebase and reconcile first." >&2
+exit 1

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Installed by scripts/install-git-hooks.sh. Clears out Syncthing conflict
+# copies before they can accidentally get staged/committed.
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+source scripts/lib/sync-check.sh
+quarantine_sync_conflicts
