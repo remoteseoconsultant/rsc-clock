@@ -5,3 +5,13 @@ client_secret_*.json
 .env
 .env.*
 *secrets*/
+
+# Store packages built by publish workflows / manual packaging — not source
+*.zip
+
+# Store listing screenshots/promo assets — not part of the extension source
+assets/screenshots/chrome-store/
+firefox-addons/Screenshots/
+
+# Stray/unidentified files
+/unnamed.png
